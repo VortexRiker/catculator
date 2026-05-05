@@ -1,3 +1,7 @@
+let leftOperand = null;
+let rightOperand = null;
+let operator = null;
+
 // Add two numbers and return the result
 function add(lhs, rhs)
 {
@@ -25,6 +29,41 @@ function divide(lhs, rhs)
     {
         return null;
     }
-    return lhs/rhs;
 
+    return lhs/rhs;
+}
+
+// Calculate the result of specified operation, using provided numbers as operands
+void operate(lhs, operator, rhs)
+{
+    let result = null;
+    switch(operator)
+    {
+        case "+":
+        {
+            result = add(lhs, rhs);
+            break;
+        }
+        case "-":
+        {
+            result = subtract(lhs, rhs);
+            break;
+        }
+        case "*":
+        {
+            result = multiply(lhs, rhs);
+            break;
+        }
+        case "/":
+        {
+            result = divide(lhs, rhs);
+            break;
+        }
+        default:
+        {
+            break;
+        }
+    }
+
+    return result;
 }
