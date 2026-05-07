@@ -1,0 +1,125 @@
+:root
+{
+    --width-scale: calc(100vw / 1920px);
+    --height-scale: calc(100vh / 1080px);
+    --scale: min(var(--width-scale), var(--height-scale));
+}
+
+html
+{
+    box-sizing: border-box;
+    font-family: sans-serif;
+    font-size: calc(24px * var(--scale));  
+}
+
+*,
+*::before,
+*::after
+{
+    box-sizing:inherit;
+}
+
+body
+{
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(33, 57, 32);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.calculator
+{
+    display: flex;
+    flex-direction:column;
+    flex: 0 1 calc(500px * var(--scale));
+    padding: calc(50px * var(--scale)) calc(10px * var(--scale)) calc(10px * var(--scale));
+    gap: calc(20px * var(--scale));
+    background-color: rgb(64, 99, 97);
+    border: calc(5px * var(--scale)) solid rgb(3, 46, 48);
+}
+
+.display
+{
+    border: 3px solid;
+    text-align: right;
+    font-family: "Orbitron", "Share Tech Mono", monospace;
+    font-weight: 400;
+    font-size: calc(64px * var(--scale));
+    color: rgb(7, 173, 167);
+    background-color:rgb(2, 37, 29);
+
+    flex: 0 1 30%;
+}
+
+.inputArea
+{
+    display: flex;
+    flex-direction:row;
+    gap: calc(10px * var(--scale))
+}
+
+button
+{
+    font-family: "Inter", "Roboto", system-ui, sans-serif;
+    font-weight: bold;
+    font-size: calc(48px * var(--scale));
+    color:rgb(2, 57, 38);
+    background-color: rgb(75, 160, 152);
+    border: 3px solid;
+}
+button:hover
+{
+    background-color: rgb(106, 225, 213);
+}
+button:active
+{
+    background-color: rgb(47, 99, 93);
+}
+
+.digits,
+.operations
+{
+    display: flex;
+    flex-wrap: wrap;
+    border: 3px solid rgb(2, 57, 38);
+}
+.digits
+{
+    flex: 1 1 60%;
+}
+.operations
+{
+    flex: 1 1 40%;
+
+}
+
+.digit
+{
+   flex: 0 0 calc(100% / 3);
+   aspect-ratio: 1;
+}
+.operation
+{
+    flex: 0 0 calc(100% / 2);
+    aspect-ratio: 1;
+}
+.wide
+{
+    flex: 0 0 100%;
+}
+.digit.wide
+{
+    aspect-ratio: 3;
+}
+.operation.wide
+{
+    aspect-ratio: 2;
+}
+
+
+
+
