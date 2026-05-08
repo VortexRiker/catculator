@@ -1,6 +1,6 @@
-let leftOperand = null;
-let rightOperand = null;
-let operator = null;
+let leftOperand = "";
+let rightOperand = "";
+let operator = "";
 
 // Add two numbers and return the result
 function add(lhs, rhs)
@@ -34,7 +34,7 @@ function divide(lhs, rhs)
 }
 
 // Calculate the result of specified operation, using provided numbers as operands
-void operate(lhs, operator, rhs)
+function operate(lhs, operator, rhs)
 {
     let result = null;
     switch(operator)
@@ -67,3 +67,56 @@ void operate(lhs, operator, rhs)
 
     return result;
 }
+
+function processDigit(event)
+{
+    const content = event.target.textContent;
+    if(!operator)
+    {
+        leftOperand += content;
+    }
+    else
+    {
+        rightOperand += content;
+    }
+}
+
+function processOperator(event)
+{
+    const content = event.target.textContent;
+
+    operator = content;
+}
+
+function initializeDigits()
+{
+    const digits = document.querySelectorAll(".digit");
+    digits.forEach(element => element.addEventListener("click", processDigit));
+}
+
+function initializeOperators()
+{
+    const operators = document.querySelectorAll(".operation");
+    operators.forEach(element => element.addEventListener("click", processOperator));
+}
+
+function processDisplay(event)
+{
+    const display = document.querySelector(".display");
+    display.textContent = leftOperand + operator + rightOperand;
+}
+
+function initializeDisplay()
+{
+    const calculator = document.querySelector(".calculator");
+    calculator.addEventListener("click", processDisplay);
+}
+
+function initializeCalculator()
+{
+    initializeDigits();
+    initializeOperators();
+    initializeDisplay();
+}
+
+initializeCalculator();

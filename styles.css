@@ -51,7 +51,7 @@ body
     font-size: calc(64px * var(--scale));
     color: rgb(7, 173, 167);
     background-color:rgb(2, 37, 29);
-
+    height: 1em;
     flex: 0 1 30%;
 }
 
