@@ -1,5 +1,6 @@
 let leftOperand = "";
 let rightOperand = "";
+let pendingOperation = "";
 let operator = "";
 
 // Add two numbers and return the result
@@ -81,6 +82,18 @@ function processDigit(event)
     }
 }
 
+function processCalculation()
+{
+    if (!rightOperand)
+    {
+        return;
+    }
+    leftOperand = operate(+leftOperand, +operator, +rightOperand);
+    operator = pendingOperation;
+    pendingOperation = "";
+    rightOperand = "";
+}
+
 function processOperator(event)
 {
     const content = event.target.textContent;
@@ -100,6 +113,31 @@ function initializeOperators()
     operators.forEach(element => element.addEventListener("click", processOperator));
 }
 
+function processClear()
+{
+    leftOperand = "";
+    operator = "";
+    rightOperand = "";
+}
+
+function initializeClear()
+{
+    const clear = document.querySelector(".clear");
+    clear.addEventListener("click", processClear);
+}
+
+function initializeEquals()
+{
+    const equals = document.querySelector(".equals");
+    equals.addEventListener("click", processCalculation);
+}
+
+function initializeCommands()
+{
+    initializeClear();
+    initializeEquals();
+}
+
 function processDisplay(event)
 {
     const display = document.querySelector(".display");
@@ -116,6 +154,7 @@ function initializeCalculator()
 {
     initializeDigits();
     initializeOperators();
+    initializeCommands();
     initializeDisplay();
 }
 
