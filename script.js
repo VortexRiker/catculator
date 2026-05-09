@@ -1,6 +1,5 @@
 let leftOperand = "";
 let rightOperand = "";
-let pendingOperation = "";
 let operator = "";
 
 // Add two numbers and return the result
@@ -37,7 +36,7 @@ function divide(lhs, rhs)
 // Calculate the result of specified operation, using provided numbers as operands
 function operate(lhs, operator, rhs)
 {
-    let result = null;
+    let result = "";
     switch(operator)
     {
         case "+":
@@ -88,16 +87,18 @@ function processCalculation()
     {
         return;
     }
-    leftOperand = operate(+leftOperand, +operator, +rightOperand);
-    operator = pendingOperation;
-    pendingOperation = "";
+    leftOperand = operate(+leftOperand, operator, +rightOperand);
+    operator = "";
     rightOperand = "";
 }
 
 function processOperator(event)
 {
     const content = event.target.textContent;
-
+    if(rightOperand)
+    {
+        processCalculation();
+    }
     operator = content;
 }
 
