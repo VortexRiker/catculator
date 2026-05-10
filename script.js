@@ -1,3 +1,4 @@
+let isAnswer = false;
 let leftOperand = "";
 let rightOperand = "";
 let operator = "";
@@ -27,7 +28,7 @@ function divide(lhs, rhs)
 {
     if (rhs === 0)
     {
-        return null;
+        return "Only Cats can access infinity.";
     }
 
     return lhs/rhs;
@@ -65,7 +66,22 @@ function operate(lhs, operator, rhs)
         }
     }
 
-    return result;
+    return Number.isNaN(+result) ? result : +result.toFixed(5);
+}
+
+function processOperand(operand, content)
+{
+    if(isAnswer || +operand === 0)
+    {
+        operand = content;
+        isAnswer = false;
+    }
+    else
+    {
+        operand += content;
+    }
+
+    return operand;
 }
 
 function processDigit(event)
@@ -73,11 +89,11 @@ function processDigit(event)
     const content = event.target.textContent;
     if(!operator)
     {
-        leftOperand += content;
+        leftOperand = processOperand(leftOperand, content)
     }
     else
     {
-        rightOperand += content;
+        rightOperand = processOperand(rightOperand, content);
     }
 }
 
@@ -87,18 +103,26 @@ function processCalculation()
     {
         return;
     }
-    leftOperand = operate(+leftOperand, operator, +rightOperand);
+
+    leftOperand = operate(+leftOperand, operator, +rightOperand);;
     operator = "";
     rightOperand = "";
+    isAnswer = true;
 }
 
 function processOperator(event)
 {
     const content = event.target.textContent;
+
+    if(Number.isNaN(+leftOperand))
+    {
+        return;
+    }
     if(rightOperand)
     {
         processCalculation();
     }
+
     operator = content;
 }
 
@@ -142,7 +166,14 @@ function initializeCommands()
 function processDisplay(event)
 {
     const display = document.querySelector(".display");
-    display.textContent = leftOperand + operator + rightOperand;
+    if (!rightOperand)
+    {
+        display.textContent = leftOperand;
+    }
+    else
+    {
+        display.textContent = rightOperand;
+    }
 }
 
 function initializeDisplay()

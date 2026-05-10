@@ -45,13 +45,15 @@ body
 .display
 {
     border: 3px solid;
-    text-align: right;
     font-family: "Orbitron", "Share Tech Mono", monospace;
     font-weight: 400;
     font-size: calc(64px * var(--scale));
     color: rgb(7, 173, 167);
     background-color:rgb(2, 37, 29);
-    height: 1em;
+    min-height: 1.5em;
+    display: flex;
+    align-items: center;
+    justify-content: end;
     flex: 0 1 30%;
 }
 
@@ -80,29 +82,27 @@ button:active
     background-color: rgb(47, 99, 93);
 }
 
-.digits,
-.operations
+.leftInput,
+.rightInput
 {
     display: flex;
     flex-wrap: wrap;
     border: 3px solid rgb(2, 57, 38);
 }
-.digits
+.leftInput
 {
     flex: 1 1 60%;
 }
-.operations
+.rightInput
 {
     flex: 1 1 40%;
-
 }
-
-.digit
+.leftInput > *
 {
    flex: 0 0 calc(100% / 3);
    aspect-ratio: 1;
 }
-.operation
+.rightInput > *
 {
     flex: 0 0 calc(100% / 2);
     aspect-ratio: 1;
@@ -111,11 +111,11 @@ button:active
 {
     flex: 0 0 100%;
 }
-.digit.wide
+.leftInput > .wide
 {
     aspect-ratio: 3;
 }
-.operation.wide
+.rightInput > .wide
 {
     aspect-ratio: 2;
 }
