@@ -1,6 +1,16 @@
-let isAnswer = false;
-let leftOperand = "";
-let rightOperand = "";
+function Operand(value = "")
+{
+    this.value = value;
+    this.hasSeparator = false;
+    this.isAnswer = false;
+    this.getValue = function ()
+    {
+        return +this.value;
+    }
+}
+
+let leftOperand = new Operand();
+let rightOperand = new Operand();
 let operator = "";
 
 // Add two numbers and return the result
@@ -71,14 +81,19 @@ function operate(lhs, operator, rhs)
 
 function processOperand(operand, content)
 {
-    if(isAnswer || +operand === 0)
+    if(content === "." && !operand.isAnswer && !operand.hasSeparator)
     {
-        operand = content;
-        isAnswer = false;
+        operand.value += content;
+        operand.hasSeparator = true;
+    }
+    else if(operand.isAnswer || (operand.getValue() === 0 && !operand.hasSeparator))
+    {
+        operand.value = content;
+        operand.isAnswer = false;
     }
     else
     {
-        operand += content;
+        operand.value += content;
     }
 
     return operand;
@@ -87,34 +102,35 @@ function processOperand(operand, content)
 function processDigit(event)
 {
     const content = event.target.textContent;
+
     if(!operator)
     {
-        leftOperand = processOperand(leftOperand, content)
+        processOperand(leftOperand, content)
     }
     else
     {
-        rightOperand = processOperand(rightOperand, content);
+        processOperand(rightOperand, content);
     }
 }
 
 function processCalculation()
 {
-    if (!rightOperand)
+    if (!rightOperand.value)
     {
         return;
     }
 
-    leftOperand = operate(+leftOperand, operator, +rightOperand);;
+    leftOperand.value = operate(leftOperand.getValue(), operator, rightOperand.getValue());;
+    leftOperand.isAnswer = true;
     operator = "";
-    rightOperand = "";
-    isAnswer = true;
+    rightOperand.value = "";
 }
 
 function processOperator(event)
 {
     const content = event.target.textContent;
 
-    if(Number.isNaN(+leftOperand))
+    if(Number.isNaN(leftOperand.getValue()))
     {
         return;
     }
@@ -140,9 +156,9 @@ function initializeOperators()
 
 function processClear()
 {
-    leftOperand = "";
+    leftOperand.value = "0";
     operator = "";
-    rightOperand = "";
+    rightOperand.value = "";
 }
 
 function initializeClear()
@@ -157,22 +173,41 @@ function initializeEquals()
     equals.addEventListener("click", processCalculation);
 }
 
+function processSeparator()
+{
+    if(!operator)
+    {
+       processOperand(leftOperand, "."); 
+    }
+    else
+    {
+        processOperand(rightOperand, ".");
+    }
+}
+
+function initializeSeparator()
+{
+    const separator = document.querySelector(".separator");
+    separator.addEventListener("click", processSeparator);
+}
+
 function initializeCommands()
 {
     initializeClear();
     initializeEquals();
+    initializeSeparator();
 }
 
 function processDisplay(event)
 {
     const display = document.querySelector(".display");
-    if (!rightOperand)
+    if (!rightOperand.value)
     {
-        display.textContent = leftOperand;
+        display.textContent = leftOperand.value;
     }
     else
     {
-        display.textContent = rightOperand;
+        display.textContent = rightOperand.value;
     }
 }
 
