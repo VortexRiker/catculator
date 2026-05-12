@@ -1,7 +1,6 @@
 function Operand(value = "")
 {
     this.value = value;
-    this.hasSeparator = false;
     this.isAnswer = false;
     this.getValue = function ()
     {
@@ -76,17 +75,26 @@ function operate(lhs, operator, rhs)
         }
     }
 
-    return Number.isNaN(+result) ? result : +result.toFixed(5);
+    return Number.isNaN(+result) ? result : String(+result.toFixed(5));
 }
 
-function processOperand(operand, content)
+function tryAddSeparator(operand, content)
 {
-    if(content === "." && !operand.isAnswer && !operand.hasSeparator)
+
+    if (!operand.value.includes(".")|| operand.isAnswer)
     {
+        if(operand.isAnswer)
+        {
+            operand.value = "0";
+            operand.isAnswer = false;
+        }
         operand.value += content;
-        operand.hasSeparator = true;
     }
-    else if(operand.isAnswer || (operand.getValue() === 0 && !operand.hasSeparator))
+}
+
+function addContent(operand, content)
+{
+    if(operand.isAnswer || (operand.getValue() === 0 && !operand.value.includes(".")))
     {
         operand.value = content;
         operand.isAnswer = false;
@@ -95,8 +103,18 @@ function processOperand(operand, content)
     {
         operand.value += content;
     }
+}
 
-    return operand;
+function processOperand(operand, content)
+{
+    if (content === ".")
+    {
+        tryAddSeparator(operand, content);
+    }
+    else
+    {
+        addContent(operand, content);
+    }
 }
 
 function processDigit(event)
@@ -113,6 +131,12 @@ function processDigit(event)
     }
 }
 
+function resetOperand(operand, value = "")
+{
+    operand.value = value;
+    operand.isAnswer = value ? true : false;
+}
+
 function processCalculation()
 {
     if (!rightOperand.value)
@@ -120,10 +144,9 @@ function processCalculation()
         return;
     }
 
-    leftOperand.value = operate(leftOperand.getValue(), operator, rightOperand.getValue());;
-    leftOperand.isAnswer = true;
+    resetOperand(leftOperand, operate(leftOperand.getValue(), operator, rightOperand.getValue()));
     operator = "";
-    rightOperand.value = "";
+    resetOperand(rightOperand);
 }
 
 function processOperator(event)
@@ -157,6 +180,7 @@ function initializeOperators()
 function processClear()
 {
     leftOperand.value = "0";
+    leftOperand.isAnswer = false;
     operator = "";
     rightOperand.value = "";
 }
