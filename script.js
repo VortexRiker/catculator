@@ -117,18 +117,17 @@ function processOperand(operand, content)
     }
 }
 
+function getCurrentOperand()
+{
+    return operator ? rightOperand : leftOperand;
+}
+
 function processDigit(event)
 {
     const content = event.target.textContent;
-
-    if(!operator)
-    {
-        processOperand(leftOperand, content)
-    }
-    else
-    {
-        processOperand(rightOperand, content);
-    }
+    const operand = getCurrentOperand();
+    
+    processOperand(operand, content)
 }
 
 function resetOperand(operand, value = "")
@@ -157,7 +156,7 @@ function processOperator(event)
     {
         return;
     }
-    if(rightOperand)
+    if(rightOperand.value)
     {
         processCalculation();
     }
@@ -191,6 +190,28 @@ function initializeClear()
     clear.addEventListener("click", processClear);
 }
 
+function removeLastSymbol(operand)
+{
+    if (operand.value === "0" || operand.isAnswer)
+    {
+        return;
+    }
+    operand.value = operand.value.slice(0,operand.value.length - 1);
+}
+
+function processDelete()
+{
+    const operand = getCurrentOperand();
+
+    removeLastSymbol(operand);
+}
+
+function initializeDelete()
+{
+    const del = document.querySelector(".delete");
+    del.addEventListener("click", processDelete);
+}
+
 function initializeEquals()
 {
     const equals = document.querySelector(".equals");
@@ -218,6 +239,7 @@ function initializeSeparator()
 function initializeCommands()
 {
     initializeClear();
+    initializeDelete();
     initializeEquals();
     initializeSeparator();
 }
