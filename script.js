@@ -122,9 +122,21 @@ function getCurrentOperand()
     return operator ? rightOperand : leftOperand;
 }
 
+function getEventContent(event)
+{
+    if (event.type == "keydown")
+    {
+        return event.key;
+    }
+    else
+    {
+        return event.target.textContent;
+    }
+}
+
 function processDigit(event)
 {
-    const content = event.target.textContent;
+    const content = getEventContent(event);
     const operand = getCurrentOperand();
     
     processOperand(operand, content)
@@ -150,18 +162,17 @@ function processCalculation()
 
 function processOperator(event)
 {
-    const content = event.target.textContent;
-
     if(Number.isNaN(leftOperand.getValue()))
     {
         return;
     }
+
     if(rightOperand.value)
     {
         processCalculation();
     }
 
-    operator = content;
+    operator = getEventContent(event);
 }
 
 function initializeDigits()
@@ -192,7 +203,11 @@ function initializeClear()
 
 function removeLastSymbol(operand)
 {
-    if (operand.value === "0" || operand.isAnswer)
+    if (operand.isAnswer)
+    {
+        processClear();
+    }
+    if (operand.value === "0")
     {
         return;
     }
@@ -236,8 +251,26 @@ function initializeSeparator()
     separator.addEventListener("click", processSeparator);
 }
 
+function processKeyboard(event)
+{
+    if (event.key >= "0" && event.key <= "9" || event.key === ".")
+    {
+        processDigit(event);
+    }
+    else if (event.key === "+" || event.key === "-" || event.key === "*" || event.key === "/")
+    {
+        processOperator(event);
+    }
+}
+
+function initializeKeyboard()
+{
+    document.addEventListener("keydown", processKeyboard);
+}
+
 function initializeCommands()
 {
+    initializeKeyboard();
     initializeClear();
     initializeDelete();
     initializeEquals();
@@ -259,8 +292,8 @@ function processDisplay(event)
 
 function initializeDisplay()
 {
-    const calculator = document.querySelector(".calculator");
-    calculator.addEventListener("click", processDisplay);
+    document.addEventListener("click", processDisplay);
+    document.addEventListener("keydown", processDisplay);
 }
 
 function initializeCalculator()
