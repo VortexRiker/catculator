@@ -1,6 +1,6 @@
 function Operand(value = "")
 {
-    this.value = value;
+    this.value = String(value);
     this.isAnswer = false;
     this.getValue = function ()
     {
@@ -8,7 +8,7 @@ function Operand(value = "")
     }
 }
 
-let leftOperand = new Operand();
+let leftOperand = new Operand(0);
 let rightOperand = new Operand();
 let operator = "";
 
@@ -130,7 +130,7 @@ function getEventContent(event)
     }
     else
     {
-        return event.target.textContent;
+        return event.target.dataset.value;
     }
 }
 
@@ -260,6 +260,14 @@ function processKeyboard(event)
     else if (event.key === "+" || event.key === "-" || event.key === "*" || event.key === "/")
     {
         processOperator(event);
+    }
+    else if (event.key === "=" || event.key === "Enter")
+    {
+        processCalculation();
+    }
+    else if (event.key === "Backspace")
+    {
+        processDelete();
     }
 }
 
