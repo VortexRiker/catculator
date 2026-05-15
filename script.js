@@ -285,7 +285,22 @@ function processPi()
 
 function initializePi()
 {
-    document.addEventListener("click", processPi)
+    const pi = document.querySelector(".pi");
+    pi.addEventListener("click", processPi);
+}
+
+function processNegation()
+{
+    const operand = getCurrentOperand();
+
+    let initialValue = +operand.value;
+    operand.value = String((-1) * initialValue);
+}
+
+function initializeNegation()
+{
+    const negation = document.querySelector(".negation");
+    negation.addEventListener("click", processNegation);
 }
 
 function initializeCommands()
@@ -296,6 +311,7 @@ function initializeCommands()
     initializeEquals();
     initializeSeparator();
     initializePi();
+    initializeNegation();
 }
 
 function processDisplay(event)
