@@ -276,6 +276,18 @@ function initializeKeyboard()
     document.addEventListener("keydown", processKeyboard);
 }
 
+function processPi()
+{
+    const operand = getCurrentOperand();
+
+    operand.value = Math.PI.toFixed(5);
+}
+
+function initializePi()
+{
+    document.addEventListener("click", processPi)
+}
+
 function initializeCommands()
 {
     initializeKeyboard();
@@ -283,6 +295,7 @@ function initializeCommands()
     initializeDelete();
     initializeEquals();
     initializeSeparator();
+    initializePi();
 }
 
 function processDisplay(event)
