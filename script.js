@@ -206,10 +206,12 @@ function removeLastSymbol(operand)
     if (operand.isAnswer)
     {
         processClear();
+        return;
     }
     if (operand.value.length <= 1)
     {
         operand.value = "0";
+        return;
     }
     operand.value = operand.value.slice(0,operand.value.length - 1);
 }
@@ -250,9 +252,18 @@ function initializeSeparator()
     const separator = document.querySelector(".separator");
     separator.addEventListener("click", processSeparator);
 }
+function trySwitchVisuals(event)
+{
+    const element = document.querySelector(`[data-value="${event.key}"]`);
+    if (element)
+    {
+        element.classList.toggle("active");
+    }
+}
 
 function processKeyboard(event)
 {
+    trySwitchVisuals(event);
     if (event.key >= "0" && event.key <= "9" || event.key === ".")
     {
         processDigit(event);
@@ -333,11 +344,17 @@ function initializeDisplay()
     document.addEventListener("keydown", processDisplay);
 }
 
+function initializeFocusHandling()
+{
+    document.addEventListener("mousedown", event => event.preventDefault());
+}
+
 function initializeCalculator()
 {
     initializeDigits();
     initializeOperators();
     initializeCommands();
+    initializeFocusHandling();
     initializeDisplay();
 }
 
