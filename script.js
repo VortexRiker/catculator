@@ -207,9 +207,9 @@ function removeLastSymbol(operand)
     {
         processClear();
     }
-    if (operand.value === "0")
+    if (operand.value.length <= 1)
     {
-        return;
+        operand.value = "0";
     }
     operand.value = operand.value.slice(0,operand.value.length - 1);
 }
