@@ -42,6 +42,49 @@ function divide(lhs, rhs)
 
     return lhs/rhs;
 }
+function trimTrailingZeroes(valueString)
+{
+    const valueArray = valueString.split("e");
+
+    while(valueArray[0].at(-1) === "0" || valueArray[0].at(-1) === ".")
+    {
+        valueArray[0] = valueArray[0].slice(0, -1);
+    }
+
+    let result = valueArray[0];
+    if (valueArray[1])
+    {
+        result = valueArray.join("e");
+    }
+
+    return result;
+}
+function processNumericAnswer(value)
+{
+    const THRESHOLD = 1e6;
+    if (Math.abs(value) > THRESHOLD)
+    {
+        value = value.toExponential(5);
+    }
+    else
+    {
+        value = value.toFixed(5);
+    }
+
+    return trimTrailingZeroes(String(value));
+}
+
+function processAnswer(initialValueString)
+{
+    let value = +initialValueString;
+
+    if (Number.isNaN(value))
+    {
+        return initialValueString;
+    }
+
+    return processNumericAnswer(value);
+}
 
 // Calculate the result of specified operation, using provided numbers as operands
 function operate(lhs, operator, rhs)
@@ -75,7 +118,7 @@ function operate(lhs, operator, rhs)
         }
     }
 
-    return Number.isNaN(+result) ? result : String(+result.toFixed(5));
+    return processAnswer(result);
 }
 
 function tryAddSeparator(operand, content)
