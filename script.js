@@ -252,18 +252,30 @@ function initializeSeparator()
     const separator = document.querySelector(".separator");
     separator.addEventListener("click", processSeparator);
 }
-function trySwitchVisuals(event)
+
+function tryAddVisuals(event)
 {
-    const element = document.querySelector(`[data-value="${event.key}"]`);
+    const key = event.key === "=" ? "Enter" : event.key;
+    const element = document.querySelector(`[data-value="${key}"]`);
     if (element)
     {
-        element.classList.toggle("active");
+        element.classList.add("active");
+    }
+}
+
+function tryRemoveVisuals(event)
+{
+    const key = event.key === "=" ? "Enter" : event.key;
+    const element = document.querySelector(`[data-value="${key}"]`);
+    if (element)
+    {
+        element.classList.remove("active");
     }
 }
 
 function processKeyboard(event)
 {
-    trySwitchVisuals(event);
+    tryAddVisuals(event);
     if (event.key >= "0" && event.key <= "9" || event.key === ".")
     {
         processDigit(event);
@@ -285,6 +297,7 @@ function processKeyboard(event)
 function initializeKeyboard()
 {
     document.addEventListener("keydown", processKeyboard);
+    document.addEventListener("keyup", tryRemoveVisuals);
 }
 
 function processPi()
