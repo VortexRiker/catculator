@@ -45,23 +45,18 @@ function divide(lhs, rhs)
 function trimTrailingZeroes(valueString)
 {
     const valueArray = valueString.split("e");
-
-    while(valueArray[0].at(-1) === "0" || valueArray[0].at(-1) === ".")
+    
+    while((valueArray[0].at(-1) === "0" && valueArray[0].includes(".")) || valueArray[0].at(-1) === ".")
     {
         valueArray[0] = valueArray[0].slice(0, -1);
     }
 
-    let result = valueArray[0];
-    if (valueArray[1])
-    {
-        result = valueArray.join("e");
-    }
-
-    return result;
+    return valueArray[1] ? valueArray.join("e") : valueArray[0];
 }
 function processNumericAnswer(value)
 {
-    const THRESHOLD = 1e6;
+    const THRESHOLD = 1e12;
+
     if (Math.abs(value) > THRESHOLD)
     {
         value = value.toExponential(5);
