@@ -35,11 +35,13 @@ body
 {
     display: flex;
     flex-direction:column;
+    min-width: 250px;
+    max-width: 700px;
     flex: 0 1 calc(500px * var(--scale));
-    padding: calc(50px * var(--scale)) calc(10px * var(--scale)) calc(10px * var(--scale));
+    padding: 50px 10px 10px;
     gap: calc(20px * var(--scale));
     background-color: rgb(64, 99, 97);
-    border: calc(5px * var(--scale)) solid rgb(3, 46, 48);
+    border: clamp(5px, calc(10px * var(--scale)), 10px) solid rgb(3, 133, 129);
 }
 
 .display
@@ -47,7 +49,9 @@ body
     border: 3px solid;
     font-family: "Orbitron", "Share Tech Mono", monospace;
     font-weight: 400;
-    font-size: calc(64px * var(--scale));
+    font-size: clamp(32px, calc(64px * var(--scale)), 64px);
+    overflow: hidden;
+    padding-left: 10px;
     color: rgb(7, 173, 167);
     background-color:rgb(2, 37, 29);
     min-height: 1.5em;
@@ -68,7 +72,7 @@ button
 {
     font-family: "Inter", "Roboto", system-ui, sans-serif;
     font-weight: bold;
-    font-size: calc(48px * var(--scale));
+    font-size: clamp(24px, calc(48px * var(--scale)), 48px);
     color:rgb(2, 57, 38);
     background-color: rgb(75, 160, 152);
     border: 3px solid;

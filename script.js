@@ -55,7 +55,7 @@ function trimTrailingZeroes(valueString)
 }
 function processNumericAnswer(value)
 {
-    const THRESHOLD = 1e12;
+    const THRESHOLD = 1e6;
 
     if (Math.abs(value) > THRESHOLD)
     {
@@ -63,7 +63,7 @@ function processNumericAnswer(value)
     }
     else
     {
-        value = value.toFixed(5);
+        value = value.toFixed(3);
     }
 
     return trimTrailingZeroes(String(value));
@@ -355,6 +355,11 @@ function processNegation()
 {
     const operand = getCurrentOperand();
 
+    if(operand.isAnswer)
+    {
+        return;
+    }
+    
     let initialValue = +operand.value;
     operand.value = String((-1) * initialValue);
 }
