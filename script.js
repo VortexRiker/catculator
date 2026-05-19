@@ -37,7 +37,7 @@ function divide(lhs, rhs)
 {
     if (rhs === 0)
     {
-        return "Only Cats can access infinity.";
+        return "Only Cats can access the Infinity.";
     }
 
     return lhs/rhs;
@@ -386,6 +386,14 @@ function processDisplay(event)
     const display = document.querySelector(".display");
     if (!rightOperand.value)
     {
+        if (Number.isNaN(+leftOperand.value))
+        {
+            display.classList.add("displayText");
+        }
+        else
+        {
+            display.classList.remove("displayText");
+        }
         display.textContent = leftOperand.value;
     }
     else
