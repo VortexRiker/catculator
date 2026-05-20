@@ -1,3 +1,4 @@
+// A constructor for the operand objects
 function Operand(value = "")
 {
     this.value = String(value);
@@ -37,22 +38,31 @@ function divide(lhs, rhs)
 {
     if (rhs === 0)
     {
-        return "Only Cats can access the Infinity.";
+        return "Sorry! Only Cats can access the Infinity.";
     }
 
     return lhs/rhs;
 }
+
+// Remove trailing zeroes from the passed value
 function trimTrailingZeroes(valueString)
 {
+    // Try to split on "e" symbol. If value does not contain "e"
+    // Then resulting array will have just one element
     const valueArray = valueString.split("e");
-    
+
+    // If value ends with zero AND contains a "." 
+    // OR if the value ends with "." which would happen when all zeroes are removed 
     while((valueArray[0].at(-1) === "0" && valueArray[0].includes(".")) || valueArray[0].at(-1) === ".")
     {
+        // Remove the last character of the value String
         valueArray[0] = valueArray[0].slice(0, -1);
     }
-
+    // Re-attach the exponent part of the value if there were one
     return valueArray[1] ? valueArray.join("e") : valueArray[0];
 }
+
+// Format numeric answer so it can fit the calculator display
 function processNumericAnswer(value)
 {
     const THRESHOLD = 1e6;
@@ -69,6 +79,7 @@ function processNumericAnswer(value)
     return trimTrailingZeroes(String(value));
 }
 
+// Format calculated value, so it can be presented on calculator display
 function processAnswer(initialValueString)
 {
     let value = +initialValueString;
@@ -116,6 +127,7 @@ function operate(lhs, operator, rhs)
     return processAnswer(result);
 }
 
+// Attach "." to the operand if it does not have one and is not an answer
 function tryAddSeparator(operand, content)
 {
 
@@ -130,7 +142,8 @@ function tryAddSeparator(operand, content)
     }
 }
 
-function addContent(operand, content)
+// Add digit to an operand
+function addDigit(operand, content)
 {
     if(operand.isAnswer || (operand.getValue() === 0 && !operand.value.includes(".")))
     {
@@ -142,7 +155,7 @@ function addContent(operand, content)
         operand.value += content;
     }
 }
-
+// Add specified content to an operand
 function processOperand(operand, content)
 {
     if (content === ".")
@@ -151,15 +164,20 @@ function processOperand(operand, content)
     }
     else
     {
-        addContent(operand, content);
+        addDigit(operand, content);
     }
 }
 
+// Return currently processed operand
 function getCurrentOperand()
 {
     return operator ? rightOperand : leftOperand;
 }
 
+// Return the content of the pressed button
+// In case of keyboard press return key code
+// In case of mouse press return defined in HTML data-value, 
+// which is eqiualent of the key code.
 function getEventContent(event)
 {
     if (event.type == "keydown")
@@ -172,6 +190,7 @@ function getEventContent(event)
     }
 }
 
+// Process a "Digit" button press, which includes "." separator button
 function processDigit(event)
 {
     const content = getEventContent(event);
@@ -180,12 +199,14 @@ function processDigit(event)
     processOperand(operand, content)
 }
 
+// Set operand back to either initial state or to a specified value
 function resetOperand(operand, value = "")
 {
     operand.value = value;
     operand.isAnswer = value ? true : false;
 }
 
+// Calculate the result of user provided expression and store it in lhs operand
 function processCalculation()
 {
     if (!rightOperand.value)
@@ -198,6 +219,7 @@ function processCalculation()
     resetOperand(rightOperand);
 }
 
+// Process a "Operator" button press 
 function processOperator(event)
 {
     if(Number.isNaN(leftOperand.getValue()))
@@ -213,18 +235,21 @@ function processOperator(event)
     operator = getEventContent(event);
 }
 
+// Add event listeners to "Digit" buttons
 function initializeDigits()
 {
     const digits = document.querySelectorAll(".digit");
     digits.forEach(element => element.addEventListener("click", processDigit));
 }
 
+// Add event listeners to "Operator" buttons
 function initializeOperators()
 {
     const operators = document.querySelectorAll(".operation");
     operators.forEach(element => element.addEventListener("click", processOperator));
 }
 
+// Process a press of a "Clear" button
 function processClear()
 {
     leftOperand.value = "0";
@@ -233,12 +258,14 @@ function processClear()
     rightOperand.value = "";
 }
 
+// Add event listeners to a "Clear" button
 function initializeClear()
 {
     const clear = document.querySelector(".clear");
     clear.addEventListener("click", processClear);
 }
 
+// Remove the last character of a specified operand
 function removeLastSymbol(operand)
 {
     if (operand.isAnswer)
@@ -254,6 +281,7 @@ function removeLastSymbol(operand)
     operand.value = operand.value.slice(0,operand.value.length - 1);
 }
 
+// Process a press of a "Delete" button
 function processDelete()
 {
     const operand = getCurrentOperand();
@@ -261,36 +289,37 @@ function processDelete()
     removeLastSymbol(operand);
 }
 
+// Add event listeners to a "Delete" button
 function initializeDelete()
 {
     const del = document.querySelector(".delete");
     del.addEventListener("click", processDelete);
 }
 
+// Add event listener to a "Equals" button
 function initializeEquals()
 {
     const equals = document.querySelector(".equals");
     equals.addEventListener("click", processCalculation);
 }
 
+// Process a press of a "Separator" button
 function processSeparator()
 {
-    if(!operator)
-    {
-       processOperand(leftOperand, "."); 
-    }
-    else
-    {
-        processOperand(rightOperand, ".");
-    }
+    const operand = getCurrentOperand();
+    processOperand(operand, "."); 
 }
 
+// Add event listener to a "Separator" button
 function initializeSeparator()
 {
     const separator = document.querySelector(".separator");
     separator.addEventListener("click", processSeparator);
 }
 
+// Add visual cues to a digital buttons when a keyboard key is pressed.
+// For example: User presses a keyboard key "1"
+// and corresponding "Digit" button "1" changes color as if it is pressed
 function tryAddVisuals(event)
 {
     const key = event.key === "=" ? "Enter" : event.key;
@@ -301,6 +330,8 @@ function tryAddVisuals(event)
     }
 }
 
+// Remove visual cues on digital buttons after a keyboard key is released.
+// Look at example for tryAddVisuals
 function tryRemoveVisuals(event)
 {
     const key = event.key === "=" ? "Enter" : event.key;
@@ -311,9 +342,11 @@ function tryRemoveVisuals(event)
     }
 }
 
+// Process a keyboard presses of the user
 function processKeyboard(event)
 {
     tryAddVisuals(event);
+
     if (event.key >= "0" && event.key <= "9" || event.key === ".")
     {
         processDigit(event);
@@ -331,13 +364,14 @@ function processKeyboard(event)
         processDelete();
     }
 }
-
+// Add event listeners to the keyboard
 function initializeKeyboard()
 {
     document.addEventListener("keydown", processKeyboard);
     document.addEventListener("keyup", tryRemoveVisuals);
 }
 
+// Process a "Pi" button press
 function processPi()
 {
     const operand = getCurrentOperand();
@@ -345,12 +379,14 @@ function processPi()
     operand.value = Math.PI.toFixed(5);
 }
 
+// Add event listeners to a "Pi" button
 function initializePi()
 {
     const pi = document.querySelector(".pi");
     pi.addEventListener("click", processPi);
 }
 
+// Process a "Negate" button press
 function processNegation()
 {
     const operand = getCurrentOperand();
@@ -364,15 +400,16 @@ function processNegation()
     operand.value = String((-1) * initialValue);
 }
 
+// Add event listeners to a "Negate" button
 function initializeNegation()
 {
     const negation = document.querySelector(".negation");
     negation.addEventListener("click", processNegation);
 }
 
-function initializeCommands()
+// Add event listeners to operators that require special handling
+function initializeCustomOperators()
 {
-    initializeKeyboard();
     initializeClear();
     initializeDelete();
     initializeEquals();
@@ -381,6 +418,7 @@ function initializeCommands()
     initializeNegation();
 }
 
+// Process a calculator display update
 function processDisplay(event)
 {
     const display = document.querySelector(".display");
@@ -402,22 +440,29 @@ function processDisplay(event)
     }
 }
 
+// Add event listeners that a responsible for Calculator's display update
 function initializeDisplay()
 {
     document.addEventListener("click", processDisplay);
     document.addEventListener("keydown", processDisplay);
 }
 
+// Add event listener that prevents button focus-select after mouse interactions.
+// Without this, if user would press a button with a mouse and then would try to navigate 
+// with a keyboard, then the last pressed by mouse button would have a focus selection
+// which adds a visual noise and partially breaks "Enter" and "Spacebar" keyboard key presses.
 function initializeFocusHandling()
 {
     document.addEventListener("mousedown", event => event.preventDefault());
 }
 
+// Initialize calculator's event-handling routine
 function initializeCalculator()
 {
     initializeDigits();
+    initializeKeyboard();
     initializeOperators();
-    initializeCommands();
+    initializeCustomOperators();
     initializeFocusHandling();
     initializeDisplay();
 }
