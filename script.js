@@ -66,14 +66,15 @@ function trimTrailingZeroes(valueString)
 function processNumericAnswer(value)
 {
     const THRESHOLD = 1e6;
+    const PRECISION = 3;
 
     if (Math.abs(value) > THRESHOLD)
     {
-        value = value.toExponential(5);
+        value = value.toExponential(PRECISION);
     }
     else
     {
-        value = value.toFixed(3);
+        value = value.toFixed(PRECISION);
     }
 
     return trimTrailingZeroes(String(value));
