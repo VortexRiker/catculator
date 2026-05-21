@@ -1,7 +1,7 @@
 :root
 {
-    --width-scale: calc(100vw / 1920px);
-    --height-scale: calc(100vh / 1080px);
+    --width-scale: calc(100vw / 1920);
+    --height-scale: calc(100vh / 1080);
     --scale: min(var(--width-scale), var(--height-scale));
 }
 
@@ -9,7 +9,7 @@ html
 {
     box-sizing: border-box;
     font-family: sans-serif;
-    font-size: calc(24px * var(--scale));  
+    font-size: calc(24 * var(--scale));  
 }
 
 *,
@@ -42,11 +42,11 @@ body
     flex-direction:column;
     min-width: 250px;
     max-width: 700px;
-    flex: 0 1 calc(500px * var(--scale));
+    flex: 0 1 calc(500 * var(--scale));
     padding: 10px 10px 10px;
-    gap: calc(20px * var(--scale));
+    gap: calc(20 * var(--scale));
     background-color: rgb(64, 99, 97);
-    border: clamp(5px, calc(10px * var(--scale)), 10px) solid rgb(3, 133, 129);
+    border: clamp(5px, calc(10 * var(--scale)), 10px) solid rgb(3, 133, 129);
 }
 
 .logo
@@ -57,7 +57,7 @@ body
     min-height: 64px;
     justify-content:begin;
     align-items: end;
-    margin-bottom: calc(-18px * var(--scale));;
+    margin-bottom: calc(-18 * var(--scale));;
 }
 .picture
 {
@@ -75,7 +75,7 @@ body
     padding: 0px;
     margin: 0px;
     font-family: "Eurostile", "Microgramma", sans-serif;
-    font-size: clamp(14px, calc(18px * var(--scale)), 18px);
+    font-size: clamp(14px, calc(18 * var(--scale)), 18px);
     font-weight: bolder;
     color: rgb(7, 173, 167)
 }
@@ -86,13 +86,13 @@ body
     border: 3px solid;
     font-family: "Orbitron", "Share Tech Mono", monospace;
     font-weight: 400;
-    font-size: clamp(32px, calc(64px * var(--scale)), 64px);
+    font-size: clamp(32px, calc(64 * var(--scale)), 64px);
     overflow: hidden;
     padding-left: 10px;
     color: rgb(7, 173, 167);
     background-color:rgb(2, 37, 29);
-    min-height: clamp(46px, calc(76px * var(--scale)), 84px);
-    max-height: clamp(46px, calc(76px * var(--scale)), 84px);
+    min-height: clamp(46px, calc(76 * var(--scale)), 84px);
+    max-height: clamp(46px, calc(76 * var(--scale)), 84px);
     display: flex;
     align-items: center;
     justify-content: end;
@@ -100,21 +100,21 @@ body
 }
 .displayText
 {
-    font-size: clamp(14px, calc(28px * var(--scale)), 64px);
+    font-size: clamp(14px, calc(28 * var(--scale)), 28px);
 }
 
 .inputArea
 {
     display: flex;
     flex-direction:row;
-    gap: calc(10px * var(--scale))
+    gap: calc(10 * var(--scale))
 }
 
 button
 {
     font-family: "Inter", "Roboto", system-ui, sans-serif;
     font-weight: bold;
-    font-size: clamp(24px, calc(48px * var(--scale)), 64px);
+    font-size: clamp(24px, calc(48 * var(--scale)), 48px);
     color:rgb(2, 57, 38);
     background-color: rgb(75, 160, 152);
     border: 3px solid;
