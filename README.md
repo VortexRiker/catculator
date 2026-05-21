@@ -1,5 +1,10 @@
-# catculator
+# Catculator
 
+## Preview
+
+![Preview](./images/preview.png)
+
+## Description
 Simple calculator that is designed to process basic mathematical operations: +,-,*,/
 Calculator also supports floating-point operands, can negate the entered value, and provides an acces to a value Pi.
 
