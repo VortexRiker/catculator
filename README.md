@@ -1,12 +1,15 @@
 # Catculator
 
+Simple calculator that is designed to process basic mathematical operations
+
 ## Preview
 
 ![Preview](./images/preview.png)
 
 ## Description
-Simple calculator that is designed to process basic mathematical operations: +,-,*,/
-Calculator also supports floating-point operands, can negate the entered value, and provides an acces to a value Pi.
+Calculator supports basic arithmetic operations: addition, subtraction, multiplication and division.
+
+Additionally it supports integer and floating-point operands, can negate the entered value, and provides an acces to a value Pi.
 
 User can make input either by pressing virtual buttons, or via keyboard. 
 
