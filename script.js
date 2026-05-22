@@ -448,6 +448,7 @@ function initializeDisplay()
     document.addEventListener("keydown", processDisplay);
 }
 
+// Add event listener that prevents accidental dragging of page's elements 
 function initializeDragHandling()
 {
     document.addEventListener("dragstart", event => event.preventDefault());
@@ -462,6 +463,7 @@ function initializeFocusHandling()
     document.addEventListener("pointerup", () => document.activeElement.blur())
 }
 
+// Initialize page-wide event-handling routine
 function initializeGlobalSettings()
 {
     initializeDragHandling();
