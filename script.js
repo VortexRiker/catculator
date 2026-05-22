@@ -134,7 +134,7 @@ function tryAddSeparator(operand, content)
 
     if (!operand.value.includes(".")|| operand.isAnswer)
     {
-        if(operand.isAnswer)
+        if(operand.isAnswer || !operand.value)
         {
             operand.value = "0";
             operand.isAnswer = false;
