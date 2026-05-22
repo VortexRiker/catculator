@@ -448,23 +448,34 @@ function initializeDisplay()
     document.addEventListener("keydown", processDisplay);
 }
 
+function initializeDragHandling()
+{
+    document.addEventListener("dragstart", event => event.preventDefault());
+}
+
 // Add event listener that prevents button focus-select after mouse interactions.
 // Without this, if user would press a button with a mouse and then would try to navigate 
 // with a keyboard, then the last pressed by mouse button would have a focus selection
 // which adds a visual noise and partially breaks "Enter" and "Spacebar" keyboard key presses.
 function initializeFocusHandling()
 {
-    document.addEventListener("mousedown", event => event.preventDefault());
+    document.addEventListener("mouseup", () => document.activeElement.blur())
+}
+
+function initializeGlobalSettings()
+{
+    initializeDragHandling();
+    initializeFocusHandling();
 }
 
 // Initialize calculator's event-handling routine
 function initializeCalculator()
 {
+    initializeGlobalSettings();
     initializeDigits();
     initializeKeyboard();
     initializeOperators();
     initializeCustomOperators();
-    initializeFocusHandling();
     initializeDisplay();
 }
 
