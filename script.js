@@ -65,7 +65,7 @@ function trimTrailingZeroes(valueString)
 // Format numeric answer so it can fit the calculator display
 function processNumericAnswer(value)
 {
-    const THRESHOLD = 1e6;
+    const THRESHOLD = 1e7;
     const PRECISION = 3;
 
     if (Math.abs(value) > THRESHOLD)
@@ -459,7 +459,7 @@ function initializeDragHandling()
 // which adds a visual noise and partially breaks "Enter" and "Spacebar" keyboard key presses.
 function initializeFocusHandling()
 {
-    document.addEventListener("mouseup", () => document.activeElement.blur())
+    document.addEventListener("pointerup", () => document.activeElement.blur())
 }
 
 function initializeGlobalSettings()
